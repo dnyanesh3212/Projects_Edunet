@@ -17,6 +17,9 @@ def get_weather(city):
             'humidity': data['main']['humidity'],
             'pressure': data['main']['pressure'],
             'wind_speed': data['wind']['speed'],
+            'visibility': data['visibility'] / 1000 if 'visibility' in data else 'N/A',
+            'sunrise': data['sys']['sunrise'],
+            'sunset': data['sys']['sunset'],
             'description': data['weather'][0]['description'],
             'icon': data['weather'][0]['icon']
         }
@@ -26,25 +29,29 @@ def get_weather(city):
 
 # Streamlit app
 def main():
-    st.title('Advanced Weather App')
+    st.title('🌍 Advanced Weather App ☀️🌧️')
     st.write('Enter a city name to get detailed weather information.')
 
-    city = st.text_input('City Name')
+    city = st.text_input('🏙️ City Name')
 
     if city:
         weather = get_weather(city)
         if weather:
-            st.write(f"## {weather['city']}")
-            st.write(f"**Temperature:** {weather['temperature']}°C")
-            st.write(f"**Feels Like:** {weather['feels_like']}°C")
-            st.write(f"**Weather:** {weather['description'].capitalize()}")
-            st.write(f"**Humidity:** {weather['humidity']}%")
-            st.write(f"**Pressure:** {weather['pressure']} hPa")
-            st.write(f"**Wind Speed:** {weather['wind_speed']} m/s")
+            st.write(f"## 📍 {weather['city']}")
+            st.write(f"🌡️ **Temperature:** {weather['temperature']}°C")
+            st.write(f"🥶 **Feels Like:** {weather['feels_like']}°C")
+            st.write(f"☁️ **Weather:** {weather['description'].capitalize()}")
+            st.write(f"💧 **Humidity:** {weather['humidity']}%")
+            st.write(f"🌀 **Wind Speed:** {weather['wind_speed']} m/s")
+            st.write(f"🌅 **Sunrise:** {weather['sunrise']}")
+            st.write(f"🌇 **Sunset:** {weather['sunset']}")
+            st.write(f"🚦 **Visibility:** {weather['visibility']} km")
+            st.write(f"📊 **Pressure:** {weather['pressure']} hPa")
+            
             icon_url = f"http://openweathermap.org/img/w/{weather['icon']}.png"
-            st.image(icon_url)
+            st.image(icon_url, width=100)
         else:
-            st.write("City not found. Please enter a valid city name.")
+            st.write("❌ City not found. Please enter a valid city name.")
 
 if __name__ == '__main__':
     main()
